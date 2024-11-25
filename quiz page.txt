@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .quiz-container {
+            width: 80%;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .question {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .options li input[type="radio"] {
+            margin-right: 5px;
+        }
+        .submit-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #3e8e41;
+        }
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz App</h1>
+        <div id="quiz"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let score = 0;
+        let currentQuestion = 0;
+        let questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Paris", "London", "Berlin", "Rome"],
+                correctAnswer: 0
+            },
+            {
+                question: "What is the largest planet in our solar system?",
+                options: ["Earth", "Saturn", "Jupiter", "Uranus"],
+                correctAnswer: 2
+            },
+            {
+                question: "What is the smallest country in the world?",
+                options: ["Vatican City", "Monaco", "Nauru", "Tuvalu"],
+                correctAnswer: 0
+            },
+			{
+			question: "Who is the best player in the world ?",
+                options: ["messi ", "ronaldo", "Neymar", "vini jr"],
+                correctAnswer: 0
+				},
+        ];
+
+        function displayQuestion() {
+            document.getElementById("quiz").innerHTML = `
+                <h2 class="question">${questions[currentQuestion].question}</h2>
+                <ul class="options">
+                    ${questions[currentQuestion].options.map((option, index) => `<li><input type="radio" name="option" value="${index}">${option}</li>`).join("")}
+                </ul>
+                <button class="submit-button" onclick="checkAnswer()">Submit</button>
+            `;
+        }
+
+        function checkAnswer() {
+            let userAnswer = parseInt(document.querySelector('input[name="option"]:checked').value);
+            if (userAnswer === questions[currentQuestion].correctAnswer) {
+                score++;
+                alert("Correct!");
+            } else {
+                alert("Incorrect. The correct answer is " + questions[currentQuestion].options[questions[currentQuestion].correctAnswer]);
+            }
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                displayResult();
+            }
+        }
+
+        function displayResult() {
+            document.getElementById("quiz").innerHTML = `
+                <h2 class="result">Your score is ${score} out of ${questions.length}</h2>
+            `;
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
